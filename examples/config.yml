@@ -1,0 +1,8 @@
+---
+  intra:
+    client: "" #UID
+    secret: "" #SECRET
+    uri: "https://api.intra.42.fr/v2/oauth/token"
+    endpoint: "https://api.intra.42.fr/v2"
+    scopes: ""
+

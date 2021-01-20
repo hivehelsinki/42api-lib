@@ -46,10 +46,10 @@ If (should be when by now) you have read the API documentary, you may have notic
 Parameters can be used to further specify your request without making the actual request string a mess. They are given as a parameter to the class method and should be in object format. An example of parameters and their usage:
 ```python
 payload = {
-   'filter[primary_campus]':13,
-   'filter[cursus]:1,
-   'range[final_mark]':"100,125",
-   'sort':"-final_mark,name"
+   "filter[primary_campus]":13,
+   "filter[cursus]":1,
+   "range[final_mark]":"100,125",
+   "sort":"-final_mark,name"
 }
 ```
 

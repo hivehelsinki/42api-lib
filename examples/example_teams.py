@@ -8,7 +8,7 @@ payload = {
 }
 
 #You can shorten the url if you have properly configured your config.yml
-response = ic.get("users", params = payload)
+response = ic.get("teams", params = payload)
 data = response.json()
 
 for user in data:

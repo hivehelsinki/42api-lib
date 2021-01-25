@@ -1,10 +1,12 @@
 #Note that you can import already created instance of IntraAPIClient from intra.py
 from intra import ic
+
 import json
+import config
 
 #Instead of writing everything in .get, you can create a payload
 payload = {
-    'filter[primary_campus_id]':13
+    'filter[primary_campus_id]': config.campus_id
 }
 
 #You can shorten the url if you have properly configured your config.yml

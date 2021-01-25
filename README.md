@@ -7,7 +7,13 @@ First things first, get yourself **Python 3.6 or above**. You will also need the
 
 In order to use intra.py, you will also need a config.yml file. The YAML syntax is EZ, made to be human-readable and info about it can be found online. Then you need to take a look at the __init__ function in the intra.py, this will tell you what parameters you should put into the config.yml file.
 
-Example config.yml file:
+You can copy the sample file and edit it with your api credentials:
+
+```bash
+cp config.sample.yml config.yml
+```
+
+Here is an overview of a config.yml file:
 ```yaml
 intra:
   client: [REDACTED] # <- insert your app’s UID here
@@ -75,4 +81,4 @@ userList = ic.pages_threaded("/users")
 ```
 
 ## Spotted an error? Wanna add something?
-Why not fix it and make a pull request! You just might end up getting a small reward for it...
+Why not fix it and make a pull request!

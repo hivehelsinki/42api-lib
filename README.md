@@ -1,4 +1,11 @@
-# HiveLib 42API (intra.py)
+<h1 align="center"><code>42API Lib</code></h1>
+
+<div align="center">
+  <sub>Created by ?</sub>
+</div>
+<div align="center">
+  <sub>Adapted by <a href="https://hive.fi">Hive Helsinki</a> for all the 42 Network</sub>
+</div>
 
 HiveLib 42API is a Python script that helps you connect and make requests to the 42 Network's internal [42API](https://api.intra.42.fr/apidoc).
 

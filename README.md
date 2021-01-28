@@ -43,7 +43,7 @@ ic = IntraAPIClient()
 
 This instance will be your interface to do the requests with, as follows: 
 ```python
-response = ic.get("teams")
+resp = ic.get("teams")
 ```
 Or with a full URL:
 ```python
@@ -55,14 +55,14 @@ This example will `GET` you all the teams of all the campuses, returning a reque
 To work with the response data, you may want to convert it to a json object with the method .json():
 ```python
 resp = ic.get("teams")
-if res.status_code == 200:
-  data = resp.json()
+if resp.status_code == 200:
+    data = resp.json()
 ```
 Here is the example with full URL:
 ```python
 resp = ic.get("https://api.intra.42.fr/v2/teams")
-if res.status_code == 200:
-  data = resp.json()
+if resp.status_code == 200:
+    data = resp.json()
 ```
 
 However this kind of request is not that useful. In fact, a single `.get()` request without any parameters only nets you the first 30 users, as the endpoint is paginated.
@@ -85,16 +85,16 @@ Here we are filtering by campus and cursus, results must be in a specified range
 
 To use the parameters with a certain request, you simply add them as a keyword argument params:
 ```python
-response = ic.get("/projects/7/projects_users", params = payload)
+resp = ic.get("projects/7/projects_users", params = payload)
 ```
 Here is the same example with parameters in URL:
 ```python
-response = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campus]=13&filter[cursus]=1&range[final_mark]=100,125&sort=-final_mark,name")
+resp = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campus]=13&filter[cursus]=1&range[final_mark]=100,125&sort=-final_mark,name")
 ```
 The `IntraAPIClient` takes the given endpoint URL from 'config.yml' file and appends to that whatever specific endpoint you are requesting.
 ```python
-response = ic.get("teams", params = payload)
-if res.status_code == 200:
+resp = ic.get("teams", params = payload)
+if resp.status_code == 200:
   data = response.json()
 ```
 

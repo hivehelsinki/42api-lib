@@ -12,9 +12,9 @@
 HiveLib 42API is a Python script that helps you connect and make requests to the 42 Network's internal [42API](https://api.intra.42.fr/apidoc).
 
 ## Pre-requisites:
-First things first, get yourself **Python 3.6 or above**. You will also need the packages listed in the requirements.txt. Install them with the command `pip3 install -r requirements.txt`. We highly recommend using virtual environments for all Python projects, otherwise it might get [messy](https://xkcd.com/1987/). If you are new to Python, you may want to read some basics on [object oriented approach, classes and methods.](https://docs.python.org/3/tutorial/classes.html)
+First things first, get yourself **Python 3.6 or above**. You will also need the packages listed in the 'requirements.txt'. Install them with the command `pip3 install -r requirements.txt`. We highly recommend using virtual environments for all Python projects, otherwise it might get [messy](https://xkcd.com/1987/). If you are new to Python, you may want to read some basics on [object oriented approach, classes and methods.](https://docs.python.org/3/tutorial/classes.html)
 
-In order to use intra.py, you will also need a config.yml file. The YAML syntax is EZ, made to be human-readable and info about it can be found online. Then you need to take a look at the __init__ function in the intra.py, this will tell you what parameters you should put into the config.yml file.
+In order to use 'intra.py', you will also need a 'config.yml' file. The YAML syntax is EZ, made to be human-readable and info about it can be found online.
 
 You can copy the sample file and edit it with your api credentials:
 
@@ -35,7 +35,7 @@ For the client and secret parts, you will have to create an app, [read the manua
 
 
 ## Usage:
-First, in your main .py file you need to import the `IntraAPIClient` class and create an instance of it:
+First, in your 'main.py' file you need to import the `IntraAPIClient` class and create an instance of it:
 ```python
 from intra import IntraAPIClient
 ic = IntraAPIClient()
@@ -43,14 +43,26 @@ ic = IntraAPIClient()
 
 This instance will be your interface to do the requests with, as follows: 
 ```python
-response = ic.get("http://api.intra.42.fr/v2/teams")
+response = ic.get("teams")
+```
+Or with a full URL:
+```python
+resp = ic.get("https://api.intra.42.fr/v2/teams")
 ```
 
 This example will `GET` you all the teams of all the campuses, returning a request object.
 
 To work with the response data, you may want to convert it to a json object with the method .json():
 ```python
-object = ic.get("http://api.intra.42.fr/v2/teams").json()
+resp = ic.get("teams")
+if res.status_code == 200:
+  data = resp.json()
+```
+Here is the example with full URL:
+```python
+resp = ic.get("https://api.intra.42.fr/v2/teams")
+if res.status_code == 200:
+  data = resp.json()
 ```
 
 However this kind of request is not that useful. In fact, a single `.get()` request without any parameters only nets you the first 30 users, as the endpoint is paginated.
@@ -75,10 +87,15 @@ To use the parameters with a certain request, you simply add them as a keyword a
 ```python
 response = ic.get("/projects/7/projects_users", params = payload)
 ```
-Notice how with a correctly formatted YAML config, you can shorten the URL to only include the endpoint you need. The `IntraAPIClient` takes the given endpoint URL from config.yml file and appends to that whatever specific endpoint you are requesting.
+Here is the same example with parameters in URL:
+```python
+response = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campus]=13&filter[cursus]=1&range[final_mark]=100,125&sort=-final_mark,name")
+```
+The `IntraAPIClient` takes the given endpoint URL from 'config.yml' file and appends to that whatever specific endpoint you are requesting.
 ```python
 response = ic.get("teams", params = payload)
-data = response.json()
+if res.status_code == 200:
+  data = response.json()
 ```
 
 ### Pagination:
@@ -86,7 +103,11 @@ Most of the endpoints are paginated with the request parameters `page` and `per_
 
 Here we get all of the users for all of the 42 campuses ever using 20 threads and end up using around 700 requests to do it:
 ```python
-userList = ic.pages_threaded("/users")
+userList = ic.pages_threaded("users")
+```
+And with a full URL:
+```python
+userList = ic.pages_threaded("https://api.intra.42.fr/v2/users")
 ```
 
 ## Spotted an error? Wanna add something?

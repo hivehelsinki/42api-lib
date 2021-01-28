@@ -94,8 +94,6 @@ resp = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campu
 The `IntraAPIClient` takes the given endpoint URL from 'config.yml' file and appends to that whatever specific endpoint you are requesting.
 ```python
 resp = ic.get("teams", params = payload)
-if resp.status_code == 200:
-  data = response.json()
 ```
 
 ### Pagination:

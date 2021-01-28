@@ -43,26 +43,26 @@ ic = IntraAPIClient()
 
 This instance will be your interface to do the requests with, as follows: 
 ```python
-resp = ic.get("teams")
+response = ic.get("teams")
 ```
 Or with a full URL:
 ```python
-resp = ic.get("https://api.intra.42.fr/v2/teams")
+response = ic.get("https://api.intra.42.fr/v2/teams")
 ```
 
 This example will `GET` you all the teams of all the campuses, returning a request object.
 
 To work with the response data, you may want to convert it to a json object with the method .json():
 ```python
-resp = ic.get("teams")
-if resp.status_code == 200:
-    data = resp.json()
+response = ic.get("teams")
+if response.status_code == 200:
+    data = response.json()
 ```
 Here is the example with full URL:
 ```python
-resp = ic.get("https://api.intra.42.fr/v2/teams")
-if resp.status_code == 200:
-    data = resp.json()
+response = ic.get("https://api.intra.42.fr/v2/teams")
+if response.status_code == 200:
+    data = response.json()
 ```
 
 However this kind of request is not that useful. In fact, a single `.get()` request without any parameters only nets you the first 30 users, as the endpoint is paginated.
@@ -85,15 +85,15 @@ Here we are filtering by campus and cursus, results must be in a specified range
 
 To use the parameters with a certain request, you simply add them as a keyword argument params:
 ```python
-resp = ic.get("projects/7/projects_users", params = payload)
+response = ic.get("projects/7/projects_users", params = payload)
 ```
 Here is the same example with parameters in URL:
 ```python
-resp = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campus]=13&filter[cursus]=1&range[final_mark]=100,125&sort=-final_mark,name")
+response = ic.get("https://api.intra.42.fr/v2/projects/7/projects_users?filter[campus]=13&filter[cursus]=1&range[final_mark]=100,125&sort=-final_mark,name")
 ```
 The `IntraAPIClient` takes the given endpoint URL from 'config.yml' file and appends to that whatever specific endpoint you are requesting.
 ```python
-resp = ic.get("teams", params = payload)
+response = ic.get("teams", params = payload)
 ```
 
 ### Pagination:

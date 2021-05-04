@@ -10,7 +10,7 @@ payload = {
 ic.progress_bar=True
 
 # GET all users with specified primary campus
-# Note that .pages_threaded 
+# Note that .pages_threaded returns json
 data = ic.pages_threaded("users", params=payload)
 
 for user in data:

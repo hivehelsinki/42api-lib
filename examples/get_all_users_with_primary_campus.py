@@ -11,7 +11,7 @@ ic.progress_bar=True
 
 # GET all users with specified primary campus
 # Note that .pages_threaded 
-data = ic.pages_threaded("users", params = payload)
+data = ic.pages_threaded("users", params=payload)
 
 for user in data:
     print(user)

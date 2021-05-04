@@ -12,6 +12,7 @@ payload = {
 ic.progress_bar=True
 
 # pages_threaded pulls all the specified data
+# Note that .pages_threaded returns json
 data = ic.pages_threaded("projects/1/teams", params=payload)
 
 # Print some (interesting?) data

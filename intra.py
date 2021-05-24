@@ -5,10 +5,11 @@ import json
 import time
 import logging
 import requests
-import threading
+#import threading
 
 from tqdm import tqdm
-from queue import Queue
+from concurrent.futures import ThreadPoolExecutor, as_completed
+#from queue import Queue
 from copy import deepcopy
 from pygments import highlight
 from pygments.lexers.data import JsonLexer
@@ -135,8 +136,8 @@ class IntraAPIClient(object):
 
     def pages_threaded(self, url, headers={}, threads=20, stop_page=None,
                                                             thread_timeout=15, **kwargs):
-        def _page_thread(url, headers, queue, **kwargs):
-            queue.put(self.get(url=url, headers=headers, **kwargs).json())
+        def _page_thread(url, headers, kwargs):
+            return self.get(url=url, headers=headers, **kwargs).json()
 
         kwargs['params'] = kwargs.get('params', {}).copy()
         kwargs['params']['page'] = int(kwargs['params'].get('page', 1))
@@ -151,35 +152,46 @@ class IntraAPIClient(object):
         last_page = math.ceil(
             float(data.headers['X-Total']) / float(data.headers['X-Per-Page'])
         )
+        
         last_page = stop_page if stop_page and stop_page < last_page else last_page
+        
         page = kwargs['params']['page'] + 1
+        
         pbar = tqdm(initial=1, total=last_page - page + 2,
             desc=url, unit='p', disable=not self.progress_bar)
 
-        while page <= last_page:
-            active_threads = []
-            for _ in range(threads):
-                if page > last_page:
-                    break
-                queue = Queue()
+        #while page <= last_page:
+        #    if page > last_page:
+        #        break
+            
+            #queue = Queue()
+       #     kwargs['params']['page'] = page
+            #at = threading.Thread(target=_page_thread,
+            #    args=(url, headers, queue), kwargs=deepcopy(kwargs))
+
+            #at.start()
+            #active_threads.append({
+            #    'thread': at,
+            #    'page': page,
+            #    'queue': queue
+            #    })
+            #page += 1
+        
+        futures = []
+        with ThreadPoolExecutor(max_workers=threads) as exe:
+            for page in range(page, last_page):
                 kwargs['params']['page'] = page
-                at = threading.Thread(target=_page_thread,
-                    args=(url, headers, queue), kwargs=deepcopy(kwargs))
-
-                at.start()
-                active_threads.append({
-                    'thread': at,
-                    'page': page,
-                    'queue': queue
-                    })
-                page += 1
-
-            for th in range(len(active_threads)):
-                active_threads[th]['thread'].join(timeout=threads * thread_timeout)
-                if active_threads[th]['thread'].is_alive():
-                    raise RuntimeError(f'Thread timeout after waiting for {threads * thread_timeout} seconds')
-                total += active_threads[th]['queue'].get()
+                futures.append(exe.submit(_page_thread, url=url, headers=headers, kwargs=deepcopy(kwargs)))
+            for fut in as_completed(futures):
+                total += fut.result()
                 pbar.update(1)
+
+            #for th in range(len(active_threads)):
+            #    active_threads[th]['thread'].join(timeout=threads * thread_timeout)
+            #    if active_threads[th]['thread'].is_alive():
+            #        raise RuntimeError(f'Thread timeout after waiting for {threads * thread_timeout} seconds')
+            #    total += active_threads[th]['queue'].get()
+            #    pbar.update(1)
 
         pbar.close()
         return total

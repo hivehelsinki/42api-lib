@@ -179,7 +179,7 @@ class IntraAPIClient(object):
         
         futures = []
         with ThreadPoolExecutor(max_workers=threads) as exe:
-            for page in range(page, last_page):
+            for page in range(page, last_page+1):
                 kwargs['params']['page'] = page
                 futures.append(exe.submit(_page_thread, url=url, headers=headers, kwargs=deepcopy(kwargs)))
             for fut in as_completed(futures):

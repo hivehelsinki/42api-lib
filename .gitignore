@@ -1,1 +1,4 @@
 config.yml
+*.pyc
+__pycache__/
+*.swp

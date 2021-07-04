@@ -198,11 +198,11 @@ class IntraAPIClient(object):
                 print(ic.token)
                 continue
 
-            ret = ic.get(qr)
             try:
+                ret = ic.get(qr)
                 json_str = json.dumps(ret.json(), indent=4, sort_keys=True)
                 print(highlight(json_str, JsonLexer(), TerminalFormatter()))
-            except ValueError:
-                print(ret)
+            except Exception as e:
+                print(e)
 
 ic = IntraAPIClient()

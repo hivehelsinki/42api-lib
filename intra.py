@@ -200,7 +200,7 @@ class IntraAPIClient(object):
 
             try:
                 ret = ic.get(qr)
-                json_str = json.dumps(ret.json(), indent=4, sort_keys=True)
+                json_str = json.dumps(ret.json(), indent=4)
                 print(highlight(json_str, JsonLexer(), TerminalFormatter()))
             except Exception as e:
                 print(e)

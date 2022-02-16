@@ -95,6 +95,10 @@ class IntraAPIClient(object):
                 if rc < 500:
                     raise ValueError(f"\n{res.headers}\n\nClientError. Error {str(rc)}\n{str(res.content)}\n{req_data}")
                 else:
+                    if rc == 502:
+                        LOG.info("got a 502 error, this is a known issue with the server requesting again...")
+                        time.sleep(0.5)
+                        continue
                     raise ValueError(f"\n{res.headers}\n\nServerError. Error {str(rc)}\n{str(res.content)}\n{req_data}")
 
             LOG.debug(f"Request to {url} returned with code {rc}")

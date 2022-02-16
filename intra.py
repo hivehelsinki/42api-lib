@@ -95,6 +95,9 @@ class IntraAPIClient(object):
                 if rc < 500:
                     raise ValueError(f"\n{res.headers}\n\nClientError. Error {str(rc)}\n{str(res.content)}\n{req_data}")
                 else:
+                    if rc == 502:
+                        LOG.error("502 error, a bug in the api that will be ignored and won't throw an error")
+                        return res
                     raise ValueError(f"\n{res.headers}\n\nServerError. Error {str(rc)}\n{str(res.content)}\n{req_data}")
 
             LOG.debug(f"Request to {url} returned with code {rc}")

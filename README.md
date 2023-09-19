@@ -11,8 +11,6 @@
   <sub>Adapted by <a href="https://hive.fi">Hive Helsinki</a> for all the 42 Network</sub>
 </p>
 
----
-
 ## About 42API-Lib
 
 42API-Lib is a Python script that helps you connect and make requests to the 42 Network's internal [42API](https://api.intra.42.fr/apidoc).
